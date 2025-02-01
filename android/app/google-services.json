@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "901533353815",
+    "project_id": "scrapit-9b8d4",
+    "storage_bucket": "scrapit-9b8d4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901533353815:android:f61ed8a202c1377c79a012",
+        "android_client_info": {
+          "package_name": "com.rhythmgupta.scrap_it"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "901533353815-uhj0tm2spmtoa1gpqipqki5gknug9upp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcbGQYrc6MDZzO-uNgDuh2JHTaUCGMl3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "901533353815-uhj0tm2spmtoa1gpqipqki5gknug9upp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "901533353815-44li7t4j1vcnhb47lb8mdnc1ninlhkdm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rhythmgupta.scrapIt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

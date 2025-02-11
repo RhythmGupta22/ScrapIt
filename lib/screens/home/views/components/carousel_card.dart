@@ -37,6 +37,7 @@ class CarouselCard extends StatelessWidget {
               flex: 3,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     title,

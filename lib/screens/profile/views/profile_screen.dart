@@ -59,20 +59,21 @@ class ProfileScreen extends StatelessWidget {
                   height: 20,
                 ),
                 Text(
-                  'Orders And Payments',
+                  // 'Orders And Payments',
+                  'Bookings',
                   style: kTitle2Style.copyWith(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                ProfileListTile(
-                  title: 'My Orders',
-                  icon: UIcons.regularRounded.shopping_bag,
-                  onTap: () => Get.to(
-                    () => ViewAllOrdersScreen(),
-                    transition: Transition.zoom,
-                  ),
-                ),
+                // ProfileListTile(
+                //   title: 'My Orders',
+                //   icon: UIcons.regularRounded.shopping_bag,
+                //   onTap: () => Get.to(
+                //     () => ViewAllOrdersScreen(),
+                //     transition: Transition.zoom,
+                //   ),
+                // ),
                 ProfileListTile(
                   title: 'My Bookings',
                   icon: UIcons.regularRounded.boxes,

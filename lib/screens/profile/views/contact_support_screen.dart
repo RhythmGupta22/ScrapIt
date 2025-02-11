@@ -31,7 +31,7 @@ class ContactSupportScreen extends StatelessWidget {
                 ),
                 ContactSupportTile(
                   icon: UIcons.regularRounded.envelope,
-                  contactHandle: 'support@trashdump.com ',
+                  contactHandle: 'support@ScrapIt.com ',
                 ),
                 SizedBox(
                   height: 25,
@@ -45,14 +45,14 @@ class ContactSupportScreen extends StatelessWidget {
                 ),
                 ContactSupportTile(
                   icon: UIcons.brands.facebook,
-                  contactHandle: 'facebook.com/trashdump',
+                  contactHandle: 'facebook.com/ScrapIt',
                 ),
                 SizedBox(
                   height: 25,
                 ),
                 ContactSupportTile(
                   icon: UIcons.brands.instagram,
-                  contactHandle: 'instagram.com/trashdump',
+                  contactHandle: 'instagram.com/ScrapIt',
                 ),
               ],
             ),

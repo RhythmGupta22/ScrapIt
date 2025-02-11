@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart' as custom_carousel;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:scrap_it/screens/login/repository/auth_repository.dart';
 import 'package:uicons/uicons.dart';
 import 'package:scrap_it/constants/colors.dart';
 import 'package:scrap_it/constants/fonts.dart';
@@ -24,7 +25,8 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HomeScreenTopRow(userName: 'Rhythm Gupta'),
+              HomeScreenTopRow(userName: AuthRepository
+                  .instance.firebaseUser.value!.displayName!),
               SizedBox(
                 height: 20,
               ),
@@ -67,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                             controller.getCurrentPosition();
                           },
                           contentPadding: EdgeInsets.zero,
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: 13,
                           title: Text(
                             'Your Location',
                             style: kTitle2Style,

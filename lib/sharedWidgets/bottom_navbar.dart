@@ -23,7 +23,9 @@ class _BottomNavBarState extends State<BottomNavBar>
   void initState() {
     super.initState();
     _tabController = TabController(
-        length: 4, vsync: this, initialIndex: widget.initailIndex);
+        // length: 4,
+        length: 3,
+        vsync: this, initialIndex: widget.initailIndex);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -50,7 +52,7 @@ class _BottomNavBarState extends State<BottomNavBar>
             ScheduledPickupScreen(
               backButtonVisible: false,
             ),
-            ShopScreen(),
+            // ShopScreen(),
             ProfileScreen(),
           ],
         ));
@@ -105,14 +107,14 @@ class CustomNavBarWidget extends StatelessWidget {
                       : kUnselectedItemColor,
                 ),
               ),
-              Tab(
-                icon: Icon(
-                  UIcons.regularRounded.shopping_bag,
-                  color: _tabController.index == 2
-                      ? kPrimaryColor
-                      : kUnselectedItemColor,
-                ),
-              ),
+              // Tab(
+              //   icon: Icon(
+              //     UIcons.regularRounded.shopping_bag,
+              //     color: _tabController.index == 2
+              //         ? kPrimaryColor
+              //         : kUnselectedItemColor,
+              //   ),
+              // ),
               Tab(
                 icon: Icon(
                   UIcons.regularRounded.user,

@@ -27,7 +27,7 @@ class ShopController extends GetxController {
     isLoading.value = true;
     ApiResponse apiResponse = await ShopRepository.instance.fetchPopularItems();
     if (apiResponse.message == ApiMessage.success) {
-      log("This fucking Works: Items Fetched");
+      log("Items Fetched");
       mostPopularItems.addAll(apiResponse.data);
       itemsTrendingThisWeek.addAll(apiResponse.data);
     }

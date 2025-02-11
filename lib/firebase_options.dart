@@ -64,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '901533353815',
     projectId: 'scrapit-9b8d4',
     storageBucket: 'scrapit-9b8d4.firebasestorage.app',
+    iosClientId: '901533353815-44li7t4j1vcnhb47lb8mdnc1ninlhkdm.apps.googleusercontent.com',
     iosBundleId: 'com.rhythmgupta.scrapIt',
   );
 
@@ -73,6 +74,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '901533353815',
     projectId: 'scrapit-9b8d4',
     storageBucket: 'scrapit-9b8d4.firebasestorage.app',
+    iosClientId: '901533353815-44li7t4j1vcnhb47lb8mdnc1ninlhkdm.apps.googleusercontent.com',
     iosBundleId: 'com.rhythmgupta.scrapIt',
   );
 
@@ -85,4 +87,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'scrapit-9b8d4.firebasestorage.app',
     measurementId: 'G-9V82LZTN4Q',
   );
+
 }

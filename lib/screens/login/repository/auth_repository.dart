@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -192,60 +193,94 @@ class AuthRepository extends GetxController {
   }
 
   void signInWithGoogle() async {
-    GoogleSignIn googleSignIn = GoogleSignIn();
-    final GoogleSignInAccount? googleSignInAccount =
+    try {
+      if (kIsWeb) {
+        // Web-specific Google Sign-In
+        final GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+        // Use signInWithPopup for web
+        final UserCredential userCredential =
+        await _auth.signInWithPopup(googleProvider);
+
+        // Handle user details
+        final User? user = userCredential.user;
+        if (user != null) {
+          FirebaseFunctions.instance.createUserDocumentWithEmailAndPassword(
+            name: user.displayName.toString(),
+            email: user.email.toString(),
+            password: '',
+            uid: user.uid,
+          );
+          log("User signed in: ${user.displayName}");
+        }
+      } else {
+        // Mobile (Android/iOS) Google Sign-In
+        GoogleSignIn googleSignIn = GoogleSignIn();
+        final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
 
-    if (googleSignInAccount != null) {
-      final GoogleSignInAuthentication googleSignInAuthentication =
+        if (googleSignInAccount != null) {
+          final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
 
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
+          final AuthCredential credential = GoogleAuthProvider.credential(
+            accessToken: googleSignInAuthentication.accessToken,
+            idToken: googleSignInAuthentication.idToken,
+          );
 
-      try {
-        final UserCredential userCredential =
-            await _auth.signInWithCredential(credential);
-        FirebaseFunctions.instance.createUserDocumentWithEmailAndPassword(
-          name: userCredential.user!.displayName.toString(),
-          email: userCredential.user!.email.toString(),
-          password: '',
-          uid: userCredential.user!.uid,
-        );
-        log(userCredential.user!.displayName.toString());
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          // handle the error here
-          Get.snackbar(
-            'Error',
-            e.toString(),
-            backgroundColor: Colors.redAccent,
-            colorText: Colors.white,
-          );
-        } else if (e.code == 'invalid-credential') {
-          // handle the error here
-          Get.snackbar(
-            'Error',
-            e.toString(),
-            backgroundColor: Colors.redAccent,
-            colorText: Colors.white,
-          );
+          final UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+
+          // Handle user details
+          final User? user = userCredential.user;
+          if (user != null) {
+            FirebaseFunctions.instance.createUserDocumentWithEmailAndPassword(
+              name: user.displayName.toString(),
+              email: user.email.toString(),
+              password: '',
+              uid: user.uid,
+            );
+            log("User signed in: ${user.displayName}");
+          }
         }
-      } catch (e) {
-        // handle the error here
+      }
+    } on FirebaseAuthException catch (e) {
+      // FirebaseAuthException for Firebase-specific errors
+      if (e.code == 'account-exists-with-different-credential') {
         Get.snackbar(
           'Error',
-          e.toString(),
+          'Account exists with different credentials.',
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+        );
+      } else if (e.code == 'invalid-credential') {
+        Get.snackbar(
+          'Error',
+          'Invalid credential. Please try again.',
+          backgroundColor: Colors.redAccent,
+          colorText: Colors.white,
+        );
+      } else {
+        Get.snackbar(
+          'Error',
+          e.message ?? 'An unknown error occurred.',
           backgroundColor: Colors.redAccent,
           colorText: Colors.white,
         );
       }
+    } catch (e) {
+      // General exception handling for unexpected errors
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        backgroundColor: Colors.redAccent,
+        colorText: Colors.white,
+      );
     }
   }
 
-  //* ------ LOGOUT: --------------------
+
+    //* ------ LOGOUT: --------------------
   void signOut() async {
     try {
       await _auth.signOut();

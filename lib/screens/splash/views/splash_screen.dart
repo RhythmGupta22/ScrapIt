@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
                     height: 20,
                   ),
                   const Text(
-                    'TrashDash',
+                    'ScrapIt',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,

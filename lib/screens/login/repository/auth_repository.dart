@@ -28,14 +28,14 @@ class AuthRepository extends GetxController {
 
   _setInitialRoute(User? user) {
     if (user == null) {
-      Get.offAll(const LandingScreen());
+      Get.offAll(() => LandingScreen());
     } else {
       Future.delayed(
         const Duration(
           seconds: 2,
         ),
       );
-      Get.offAll(const BottomNavBar(
+      Get.offAll(() => BottomNavBar(
         initailIndex: 0,
       ));
     }

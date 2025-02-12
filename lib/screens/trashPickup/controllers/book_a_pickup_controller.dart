@@ -56,7 +56,7 @@ class BookAPickupController extends GetxController {
   }
 
   void createAPickupBooking() async {
-    if (checkIfDetailsFilled()) {
+    // if (checkIfDetailsFilled()) {
       if (contactNumberTextController.text.length != 10) {
         Get.snackbar(
           'Error',
@@ -102,22 +102,23 @@ class BookAPickupController extends GetxController {
           colorText: Colors.white,
         );
         Get.offAll(
-          BottomNavBar(
+              () => BottomNavBar(
             initailIndex: 1,
           ),
         );
       }
-    } else {
-      //* Details Not Filled:
-      Get.snackbar(
-        'Error',
-        'Please fill all the details',
-        margin: const EdgeInsets.all(
-          16.0,
-        ),
-        backgroundColor: Colors.redAccent,
-        colorText: Colors.white,
-      );
-    }
+    // }
+    // else {
+    //   //* Details Not Filled:
+    //   Get.snackbar(
+    //     'Error',
+    //     'Please fill all the details',
+    //     margin: const EdgeInsets.all(
+    //       16.0,
+    //     ),
+    //     backgroundColor: Colors.redAccent,
+    //     colorText: Colors.white,
+    //   );
+    // }
   }
 }

@@ -25,8 +25,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HomeScreenTopRow(userName: AuthRepository
-                  .instance.firebaseUser.value!.displayName!),
+              HomeScreenTopRow(userName: AuthRepository.instance.firebaseUser.value?.displayName ?? "User"),
               SizedBox(
                 height: 20,
               ),

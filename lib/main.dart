@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';
+import 'package:flutter_config/flutter_config.dart';  // For loading environment variables
 import 'package:get/get.dart';
 import 'package:scrap_it/screens/login/controller/login_controller.dart';
 import 'package:scrap_it/screens/login/repository/auth_repository.dart';
@@ -49,5 +49,5 @@ Future<void> loadEnvVariables() async {
     print("Web platform detected, skipping flutter_config.");
     return;
   }
-  await FlutterConfig.loadEnvVariables();
+  await FlutterConfig.loadEnvVariables();  // Load environment variables from .env
 }

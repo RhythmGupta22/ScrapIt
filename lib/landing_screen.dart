@@ -216,6 +216,7 @@ class LandingScreen extends StatelessWidget {
                           Get.to(() => SignUpScreen());
                         },
                       ),
+
                     ],
                   ),
                 ),

@@ -48,8 +48,7 @@ class ProfileScreen extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        AuthRepository
-                            .instance.firebaseUser.value!.displayName!,
+                        AuthRepository.instance.firebaseUser.value?.displayName ?? "User",
                         style: kTitleStyle,
                       ),
                     ],

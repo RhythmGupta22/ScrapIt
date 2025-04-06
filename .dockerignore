@@ -1,6 +1,0 @@
-.git
-.dart_tool
-.idea
-build
-*.lock
-*.log

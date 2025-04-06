@@ -59,6 +59,7 @@ dependencies:
   shared_preferences: ^2.2.0
   flutter_config: ^2.0.1
   flutter_dotenv: ^5.2.1
+  amplify_flutter: ^2.6.1
 
 dev_dependencies:
   flutter_test:

@@ -208,7 +208,8 @@ class AuthRepository extends GetxController {
           FirebaseFunctions.instance.createUserDocumentWithEmailAndPassword(
             name: user.displayName.toString(),
             email: user.email.toString(),
-            password: '', uid: user.uid,
+            password: '',
+            uid: user.uid,
           );
           log("User signed in: ${user.displayName}");
         }

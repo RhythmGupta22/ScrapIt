@@ -76,10 +76,10 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/.env
     - assets/images/splashScreen/
     - assets/images/loginScreen/
     - assets/images/homeScreen/
-    - .env
 
   fonts:
     - family: Poppins

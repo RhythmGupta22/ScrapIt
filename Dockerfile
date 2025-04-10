@@ -1,5 +1,5 @@
 # Stage 1: Build Flutter web app
-FROM debian:stable-slim as builder
+FROM debian:stable-slim AS builder
 
 # Install dependencies (ARM64 compatible)
 RUN apt-get update && apt-get install -y \
@@ -19,8 +19,8 @@ WORKDIR /app
 COPY . .
 RUN flutter pub get && flutter build web --release
 
-# Stage 2: Serve with Nginx
-FROM nginx:1.25-alpine
+# Stage 2: Serve with Nginx — named as final
+FROM nginx:1.25-alpine AS final
 COPY --from=builder /app/build/web /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

@@ -247,6 +247,59 @@ class LoginScreen extends StatelessWidget {
                         icon: UIcons.brands.google,
                       ),
                       SizedBox(height: 20),
+                      Obx(() => Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    checkColor: kSecondaryColor,
+                                    activeColor: kPrimaryColor,
+                                    value: _loginController.isSeller.value,
+                                    onChanged: (value) {
+                                      if (value ?? false) {
+                                        _loginController.updateRole(true, false);
+                                      }
+                                    },
+                                  ),
+                                  Text(
+                                    'Seller',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: kPrimaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(width: 20),
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    checkColor: kSecondaryColor,
+                                    activeColor: kPrimaryColor,
+                                    value: _loginController.isCollector.value,
+                                    onChanged: (value) {
+                                      if (value ?? false) {
+                                        _loginController.updateRole(false, true);
+                                      }
+                                    },
+                                  ),
+                                  Text(
+                                    'Collector',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: kPrimaryColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
                           Get.to(() => SignUpScreen());

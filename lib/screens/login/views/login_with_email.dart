@@ -64,6 +64,7 @@ class LoginWithEmail extends StatelessWidget {
                           .hasMatch(value!)) {
                         return 'Please enter a valid email address';
                       }
+                      return null;
                     },
                     controller: loginController.emailTextController,
                     cursorColor: kPrimaryColor,

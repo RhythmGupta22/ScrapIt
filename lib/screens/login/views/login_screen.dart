@@ -6,15 +6,13 @@ import 'package:scrap_it/screens/login/views/login_with_phone.dart';
 import 'package:scrap_it/screens/signup/views/signup_screen.dart';
 import 'package:scrap_it/sharedWidgets/custom_bordered_button.dart';
 import 'package:scrap_it/sharedWidgets/custom_filled_button.dart';
-
-import '../../../constants/colors.dart';
+import 'package:scrap_it/constants/colors.dart';
 import '../controller/login_controller.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
-  final _loginController = Get.find<LoginController>();
-  final RxBool isSeller = false.obs;
-  final RxBool isCollector = false.obs;
+
+  final LoginController _loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +82,7 @@ class LoginScreen extends StatelessWidget {
                           CustomBorderedButton(
                             title: 'Login With Google',
                             onPressed: () {
+                              _loginController.updateRole(!_loginController.isCollector.value, _loginController.isCollector.value);
                               _loginController.signInWithGoogle();
                             },
                             icon: UIcons.brands.google,
@@ -97,11 +96,10 @@ class LoginScreen extends StatelessWidget {
                                       Checkbox(
                                         checkColor: kSecondaryColor,
                                         activeColor: kPrimaryColor,
-                                        value: isSeller.value,
+                                        value: _loginController.isSeller.value,
                                         onChanged: (value) {
-                                          isSeller.value = value!;
-                                          if (value) {
-                                            isCollector.value = false;
+                                          if (value ?? false) {
+                                            _loginController.updateRole(true, false);
                                           }
                                         },
                                       ),
@@ -122,11 +120,10 @@ class LoginScreen extends StatelessWidget {
                                       Checkbox(
                                         checkColor: kSecondaryColor,
                                         activeColor: kPrimaryColor,
-                                        value: isCollector.value,
+                                        value: _loginController.isCollector.value,
                                         onChanged: (value) {
-                                          isCollector.value = value!;
-                                          if (value) {
-                                            isSeller.value = false;
+                                          if (value ?? false) {
+                                            _loginController.updateRole(false, true);
                                           }
                                         },
                                       ),
@@ -244,6 +241,7 @@ class LoginScreen extends StatelessWidget {
                       CustomBorderedButton(
                         title: 'Login With Google',
                         onPressed: () {
+                          _loginController.updateRole(!_loginController.isCollector.value, _loginController.isCollector.value);
                           _loginController.signInWithGoogle();
                         },
                         icon: UIcons.brands.google,

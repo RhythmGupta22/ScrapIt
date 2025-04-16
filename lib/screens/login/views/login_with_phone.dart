@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:scrap_it/screens/login/controller/login_controller.dart';
 import 'package:scrap_it/screens/login/views/components/phone_input_field.dart';
-import 'package:scrap_it/screens/login/views/enter_otp.dart';
 import 'package:scrap_it/sharedWidgets/custom_filled_button.dart';
 
 class LoginWithPhone extends StatelessWidget {

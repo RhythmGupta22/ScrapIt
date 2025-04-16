@@ -1,84 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scrap_it/constants/colors.dart';
-import 'package:scrap_it/constants/fonts.dart';
-import 'package:scrap_it/constants/styles.dart';
-import 'package:scrap_it/screens/login/controller/login_controller.dart';
 import 'package:scrap_it/screens/login/repository/auth_repository.dart';
-import 'package:scrap_it/sharedWidgets/custom_filled_button.dart';
+import 'package:scrap_it/sharedWidgets/bottom_navbar.dart';
+import 'package:scrap_it/utils/firebase_functions.dart';
 
 class EnterNameScreen extends StatelessWidget {
-  EnterNameScreen({super.key});
+  final String phoneNumber;
+  final bool isCollector;
 
-  final loginController = Get.find<LoginController>();
+  const EnterNameScreen({super.key, required this.phoneNumber, required this.isCollector});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameController = TextEditingController();
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     return Scaffold(
-        body: SafeArea(
-      child: Padding(
+      appBar: AppBar(title: const Text('Enter Your Name')),
+      body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
-          key: Get.find<LoginController>().nameFormKey,
+          key: formKey,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Text(
-                  'Enter Your Name',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                'Looks like you are new here! Please enter your name to continue.',
-                style: kSubtitleStyle,
-              ),
-              SizedBox(
-                height: 35,
-              ),
-              Text(
-                'Name',
-                style: kSubtitleStyle,
-              ),
-              SizedBox(
-                height: 10,
-              ),
               TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please enter a name';
+                controller: nameController,
+                decoration: const InputDecoration(labelText: 'Name'),
+                validator: (value) => value!.isEmpty ? 'Please enter your name' : null,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    String uid = AuthRepository.instance.firebaseUser.value!.uid;
+                    await FirebaseFunctions.instance.setUserRole(
+                      uid: uid,
+                      role: isCollector ? 'collector' : 'seller',
+                    );
+                    await FirebaseFunctions.instance.createUserWithPhoneNumber(
+                      name: nameController.text,
+                      phoneNumber: phoneNumber,
+                      uid: uid,
+                    );
+                    Get.offAll(() => BottomNavBar(
+                      initialIndex: 0,
+                      userType: isCollector ? UserType.collector : UserType.seller,
+                    ));
                   }
                 },
-                controller: loginController.nameTextController,
-                cursorColor: kPrimaryColor,
-                decoration: InputDecoration(
-                  hintText: 'Enter your name',
-                  focusedBorder: focusedBorderStyle,
-                  border: borderStyle,
-                  errorBorder: errorBorderStyle,
-                ),
+                child: const Text('Submit'),
               ),
-              Spacer(),
-              CustomFilledButton(
-                  title: 'Continue',
-                  onPressed: () {
-                    loginController.createUserWithPhoneNumber(
-                        name: loginController.nameTextController.text,
-                        phoneNumber: loginController.phoneNumberController.text,
-                        uid: AuthRepository.instance.firebaseUser.value!.uid);
-                    loginController.nameTextController.clear();
-                    Get.back();
-                  }),
             ],
           ),
         ),
       ),
-    ));
+    );
   }
 }

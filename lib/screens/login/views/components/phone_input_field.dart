@@ -6,8 +6,8 @@ import 'package:scrap_it/screens/login/controller/login_controller.dart';
 
 class PhoneInputField extends StatelessWidget {
   const PhoneInputField({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

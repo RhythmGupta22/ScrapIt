@@ -1,14 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_config/flutter_config.dart';  // For loading environment variables
+// For loading environment variables
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:scrap_it/screens/collector/controllers/collector_profile_controller.dart';
 import 'package:scrap_it/screens/login/controller/login_controller.dart';
 import 'package:scrap_it/screens/login/repository/auth_repository.dart';
 import 'package:scrap_it/screens/splash/views/splash_screen.dart';
 import 'firebase_options.dart'; // Import the generated firebase_options.dart
-import 'screens/home/controllers/location_controller.dart';
+import 'screens/seller/home/controllers/location_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +25,7 @@ void main() async {
   // Register controllers
   Get.put(LoginController());
   Get.put(LocationController());
-
+  Get.put(CollectorProfileController());
   // Start the app
   runApp(const MyApp());
 }

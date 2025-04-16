@@ -38,7 +38,7 @@ dependencies:
   carousel_slider: ^5.0.0
   geolocator: ^13.0.2
   geocoding: ^3.0.0
-  google_maps_flutter: ^2.0.9
+  google_maps_flutter: ^2.6.0
   google_maps_flutter_web: ^0.5.10
   flutter_map: ^8.0.0
   latlong2: ^0.9.1
@@ -70,7 +70,6 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
-  # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true

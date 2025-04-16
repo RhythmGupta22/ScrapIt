@@ -1,152 +1,29 @@
-// import 'package:flutter/material.dart';
-// import 'package:tab_indicator_styler/tab_indicator_styler.dart';
-// import 'package:uicons/uicons.dart';
-// import 'package:scrap_it/constants/colors.dart';
-// import 'package:scrap_it/screens/trashPickup/views/scheduled_pickups.dart';
-// import 'package:scrap_it/screens/home/views/home_screen.dart';
-// import 'package:scrap_it/screens/profile/views/profile_screen.dart';
-// import 'package:scrap_it/screens/shop/views/shop_screen.dart';
-//
-// class BottomNavBar extends StatefulWidget {
-//   const BottomNavBar({Key? key, required this.initailIndex}) : super(key: key);
-//   final int initailIndex;
-//   @override
-//   State<BottomNavBar> createState() => _BottomNavBarState();
-// }
-//
-// class _BottomNavBarState extends State<BottomNavBar>
-//     with SingleTickerProviderStateMixin {
-//   //controller to manage different tabs of the navbar
-//   late TabController _tabController;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _tabController = TabController(
-//         // length: 4,
-//         length: 3,
-//         vsync: this, initialIndex: widget.initailIndex);
-//     _tabController.addListener(_handleTabSelection);
-//   }
-//
-//   void _handleTabSelection() {
-//     setState(() {});
-//   }
-//
-//   @override
-//   void dispose() {
-//     super.dispose();
-//     _tabController.dispose();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         //custom made tabview used as bottom navbar
-//         bottomNavigationBar: CustomNavBarWidget(tabController: _tabController),
-//         body: TabBarView(
-//           controller: _tabController,
-//           //tab pages in correspondence to the navbar
-//           children: [
-//             HomeScreen(),
-//             ScheduledPickupScreen(
-//               backButtonVisible: false,
-//             ),
-//             // ShopScreen(),
-//             ProfileScreen(),
-//           ],
-//         ));
-//   }
-// }
-//
-// class CustomNavBarWidget extends StatelessWidget {
-//   const CustomNavBarWidget({
-//     Key? key,
-//     required TabController tabController,
-//   })  : _tabController = tabController,
-//         super(key: key);
-//
-//   final TabController _tabController;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     //outer container to hold the navbar
-//     return Container(
-//       // padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 4.w),
-//       child: ClipRRect(
-//         borderRadius: const BorderRadius.all(
-//           Radius.circular(0.0),
-//         ),
-//         child: Container(
-//           padding: EdgeInsets.symmetric(vertical: 10),
-//           child: TabBar(
-//             //indicator package for the dot indication
-//             indicator: DotIndicator(
-//               color: kPrimaryColor,
-//               distanceFromCenter: 20,
-//               radius: 3,
-//               paintingStyle: PaintingStyle.fill,
-//             ),
-//             // BoxDecoration(color: Colors.pink, shape: BoxShape.circle),
-//             //inner padding for the icons of the navbar
-//             controller: _tabController,
-//             tabs: <Widget>[
-//               Tab(
-//                 icon: Icon(
-//                   UIcons.regularRounded.home,
-//                   color: _tabController.index == 0
-//                       ? kPrimaryColor
-//                       : kUnselectedItemColor,
-//                 ),
-//               ),
-//               Tab(
-//                 icon: Icon(
-//                   UIcons.regularRounded.calendar,
-//                   color: _tabController.index == 1
-//                       ? kPrimaryColor
-//                       : kUnselectedItemColor,
-//                 ),
-//               ),
-//               // Tab(
-//               //   icon: Icon(
-//               //     UIcons.regularRounded.shopping_bag,
-//               //     color: _tabController.index == 2
-//               //         ? kPrimaryColor
-//               //         : kUnselectedItemColor,
-//               //   ),
-//               // ),
-//               Tab(
-//                 icon: Icon(
-//                   UIcons.regularRounded.user,
-//                   color: _tabController.index == 3
-//                       ? kPrimaryColor
-//                       : kUnselectedItemColor,
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
 import 'package:flutter/material.dart';
+import 'package:scrap_it/screens/collector/views/collector_home_screen.dart';
+import 'package:scrap_it/screens/seller/home/views/home_screen.dart';
+import 'package:scrap_it/screens/seller/profile/views/profile_screen.dart';
+import 'package:scrap_it/screens/seller/trashPickup/views/scheduled_pickups.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 import 'package:uicons/uicons.dart';
 import 'package:scrap_it/constants/colors.dart';
-import 'package:scrap_it/screens/trashPickup/views/scheduled_pickups.dart';
-import 'package:scrap_it/screens/home/views/home_screen.dart';
-import 'package:scrap_it/screens/profile/views/profile_screen.dart';
+import 'package:scrap_it/screens/collector/views/assigned_orders_screen.dart';
+import 'package:scrap_it/screens/collector/views/collector_profile_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
-  const BottomNavBar({Key? key, required this.initailIndex}) : super(key: key);
-  final int initailIndex;
+  const BottomNavBar({
+    super.key,
+    required this.initialIndex,
+    this.userType = UserType.collector,
+  });
+
+  final int initialIndex;
+  final UserType userType;
 
   @override
   State<BottomNavBar> createState() => _BottomNavBarState();
 }
+
+enum UserType { collector, seller }
 
 class _BottomNavBarState extends State<BottomNavBar>
     with SingleTickerProviderStateMixin {
@@ -158,7 +35,7 @@ class _BottomNavBarState extends State<BottomNavBar>
     _tabController = TabController(
       length: 3,
       vsync: this,
-      initialIndex: widget.initailIndex,
+      initialIndex: widget.initialIndex,
     );
     _tabController.addListener(_handleTabSelection);
   }
@@ -179,34 +56,29 @@ class _BottomNavBarState extends State<BottomNavBar>
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth > 800) {
-            // Web/Tablet Layout: Sidebar navigation
             return Row(
               children: [
-                NavigationRailWidget(tabController: _tabController),
+                NavigationRailWidget(
+                  tabController: _tabController,
+                  userType: widget.userType,
+                ),
                 Expanded(
                   child: TabBarView(
                     controller: _tabController,
-                    children: [
-                      HomeScreen(),
-                      ScheduledPickupScreen(backButtonVisible: false),
-                      ProfileScreen(),
-                    ],
+                    children: _getScreens(),
                   ),
                 ),
               ],
             );
           } else {
-            // Mobile Layout: Bottom navigation bar
             return Scaffold(
-              bottomNavigationBar:
-              CustomNavBarWidget(tabController: _tabController),
+              bottomNavigationBar: CustomNavBarWidget(
+                tabController: _tabController,
+                userType: widget.userType,
+              ),
               body: TabBarView(
                 controller: _tabController,
-                children: [
-                  HomeScreen(),
-                  ScheduledPickupScreen(backButtonVisible: false),
-                  ProfileScreen(),
-                ],
+                children: _getScreens(),
               ),
             );
           }
@@ -214,16 +86,33 @@ class _BottomNavBarState extends State<BottomNavBar>
       ),
     );
   }
+
+  List<Widget> _getScreens() {
+    if (widget.userType == UserType.seller) {
+      return [
+        HomeScreen(),
+        ScheduledPickupScreen(backButtonVisible: false),
+        ProfileScreen(),
+      ];
+    } else {
+      return [
+        CollectorHomeScreen(),
+        AssignedOrdersScreen(),
+        CollectorProfileScreen(),
+      ];
+    }
+  }
 }
 
 class CustomNavBarWidget extends StatelessWidget {
   const CustomNavBarWidget({
-    Key? key,
-    required TabController tabController,
-  })  : _tabController = tabController,
-        super(key: key);
+    super.key,
+    required this.tabController,
+    required this.userType,
+  });
 
-  final TabController _tabController;
+  final TabController tabController;
+  final UserType userType;
 
   @override
   Widget build(BuildContext context) {
@@ -240,46 +129,50 @@ class CustomNavBarWidget extends StatelessWidget {
           radius: 4,
           paintingStyle: PaintingStyle.fill,
         ),
-        controller: _tabController,
-        tabs: [
-          Tab(
-            icon: Icon(
-              UIcons.regularRounded.home,
-              size: 24,
-              color: _tabController.index == 0
-                  ? kPrimaryColor
-                  : kUnselectedItemColor,
-            ),
-          ),
-          Tab(
-            icon: Icon(
-              UIcons.regularRounded.calendar,
-              size: 24,
-              color: _tabController.index == 1
-                  ? kPrimaryColor
-                  : kUnselectedItemColor,
-            ),
-          ),
-          Tab(
-            icon: Icon(
-              UIcons.regularRounded.user,
-              size: 24,
-              color: _tabController.index == 2
-                  ? kPrimaryColor
-                  : kUnselectedItemColor,
-            ),
-          ),
-        ],
+        controller: tabController,
+        tabs: _getTabs(),
       ),
     );
+  }
+
+  List<Widget> _getTabs() {
+    final firstTab = Tab(
+      icon: Icon(
+        userType == UserType.seller ? UIcons.regularRounded.shop : UIcons.regularRounded.home,
+        size: 24,
+        color: tabController.index == 0 ? kPrimaryColor : kUnselectedItemColor,
+      ),
+    );
+
+    final secondTab = Tab(
+      icon: Icon(
+        userType == UserType.seller ? UIcons.regularRounded.list : UIcons.regularRounded.list,
+        size: 24,
+        color: tabController.index == 1 ? kPrimaryColor : kUnselectedItemColor,
+      ),
+    );
+
+    final thirdTab = Tab(
+      icon: Icon(
+        UIcons.regularRounded.user,
+        size: 24,
+        color: tabController.index == 2 ? kPrimaryColor : kUnselectedItemColor,
+      ),
+    );
+
+    return [firstTab, secondTab, thirdTab];
   }
 }
 
 class NavigationRailWidget extends StatelessWidget {
-  const NavigationRailWidget({Key? key, required this.tabController})
-      : super(key: key);
+  const NavigationRailWidget({
+    super.key,
+    required this.tabController,
+    required this.userType,
+  });
 
   final TabController tabController;
+  final UserType userType;
 
   @override
   Widget build(BuildContext context) {
@@ -290,71 +183,71 @@ class NavigationRailWidget extends StatelessWidget {
       },
       labelType: NavigationRailLabelType.all,
       backgroundColor: Colors.grey.shade50,
-      destinations: [
-        NavigationRailDestination(
-          icon: Icon(
-            UIcons.regularRounded.home,
-            size: 20,
-            color: kUnselectedItemColor,
-          ),
-          selectedIcon: Icon(
-            UIcons.solidRounded.home,
-            size: 20,
-            color: kPrimaryColor,
-          ),
-          label: Text(
-            'Home',
-            style: TextStyle(
-              color: tabController.index == 0
-                  ? kPrimaryColor
-                  : kUnselectedItemColor,
-              fontSize: 12,
-            ),
-          ),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            UIcons.regularRounded.calendar,
-            size: 20,
-            color: kUnselectedItemColor,
-          ),
-          selectedIcon: Icon(
-            UIcons.solidRounded.calendar,
-            size: 20,
-            color: kPrimaryColor,
-          ),
-          label: Text(
-            'Pickups',
-            style: TextStyle(
-              color: tabController.index == 1
-                  ? kPrimaryColor
-                  : kUnselectedItemColor,
-              fontSize: 12,
-            ),
-          ),
-        ),
-        NavigationRailDestination(
-          icon: Icon(
-            UIcons.regularRounded.user,
-            size: 20,
-            color: kUnselectedItemColor,
-          ),
-          selectedIcon: Icon(
-            UIcons.solidRounded.user,
-            size: 20,
-            color: kPrimaryColor,
-          ),
-          label: Text(
-            'Profile',
-            style: TextStyle(
-              color: tabController.index == 2
-                  ? kPrimaryColor
-                  : kUnselectedItemColor,
-              fontSize: 12,
-            ),
-          ),
-        ),
-      ],
+      destinations: _getDestinations(),
     );
+  }
+
+  List<NavigationRailDestination> _getDestinations() {
+    final firstDestination = NavigationRailDestination(
+      icon: Icon(
+        userType == UserType.seller ? UIcons.regularRounded.shop : UIcons.regularRounded.home,
+        size: 20,
+        color: kUnselectedItemColor,
+      ),
+      selectedIcon: Icon(
+        userType == UserType.seller ? UIcons.solidRounded.shop : UIcons.solidRounded.home,
+        size: 20,
+        color: kPrimaryColor,
+      ),
+      label: Text(
+        userType == UserType.seller ? 'Dashboard' : 'Home',
+        style: TextStyle(
+          color: tabController.index == 0 ? kPrimaryColor : kUnselectedItemColor,
+          fontSize: 12,
+        ),
+      ),
+    );
+
+    final secondDestination = NavigationRailDestination(
+      icon: Icon(
+        userType == UserType.seller ? UIcons.regularRounded.list : UIcons.regularRounded.list,
+        size: 20,
+        color: kUnselectedItemColor,
+      ),
+      selectedIcon: Icon(
+        userType == UserType.seller ? UIcons.solidRounded.list : UIcons.solidRounded.list,
+        size: 20,
+        color: kPrimaryColor,
+      ),
+      label: Text(
+        userType == UserType.seller ? 'Orders' : 'Orders',
+        style: TextStyle(
+          color: tabController.index == 1 ? kPrimaryColor : kUnselectedItemColor,
+          fontSize: 12,
+        ),
+      ),
+    );
+
+    final thirdDestination = NavigationRailDestination(
+      icon: Icon(
+        UIcons.regularRounded.user,
+        size: 20,
+        color: kUnselectedItemColor,
+      ),
+      selectedIcon: Icon(
+        UIcons.solidRounded.user,
+        size: 20,
+        color: kPrimaryColor,
+      ),
+      label: Text(
+        'Profile',
+        style: TextStyle(
+          color: tabController.index == 2 ? kPrimaryColor : kUnselectedItemColor,
+          fontSize: 12,
+        ),
+      ),
+    );
+
+    return [firstDestination, secondDestination, thirdDestination];
   }
 }

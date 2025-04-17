@@ -6,7 +6,6 @@ import 'package:scrap_it/constants/fonts.dart';
 import 'package:scrap_it/sharedWidgets/top_header_with_back.dart';
 import 'package:scrap_it/screens/seller/trashPickup/controllers/scheduled_pickup_controller.dart';
 import 'package:scrap_it/screens/seller/trashPickup/views/book_a_pickup.dart';
-import 'package:scrap_it/screens/seller/trashPickup/views/components/scheduled_booking_tile.dart';
 import 'package:scrap_it/screens/seller/trashPickup/views/track_pickup_booking.dart';
 import 'package:intl/intl.dart';
 

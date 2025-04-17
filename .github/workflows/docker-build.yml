@@ -1,0 +1,96 @@
+name: Build and Deploy Docker Image with Trivy Scan
+
+on:
+  push:
+    branches:
+      - rhythm-ios
+  pull_request:
+    branches:
+      - rhythm-ios
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Debug: Print environment and branch information
+      - name: Debug environment
+        run: |
+          echo "GitHub Event: ${{ github.event_name }}"
+          echo "Branch: ${{ github.ref }}"
+          echo "Workflow triggered by: ${{ github.actor }}"
+
+      # Cache Flutter dependencies
+      - name: Cache Flutter dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pubspec-${{ hashFiles('pubspec.lock') }}
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Log in to Docker Hub using secrets
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build Docker image (without pushing yet)
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          load: true
+          tags: rhythmgupta22/scrapit:prod
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            FLUTTER_VERSION=3.27.3
+
+      # Scan the Docker image with Trivy
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'rhythmgupta22/scrapit:prod'
+          format: 'table'
+          output: 'trivy-report.txt'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+          ignore-unfixed: true
+
+      # Upload Trivy report as an artifact
+      - name: Upload Trivy report
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-report
+          path: trivy-report.txt
+
+      # Push Docker image (only on push to rhythm-ios)
+      - name: Push Docker image
+        if: github.event_name == 'push'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            rhythmgupta22/scrapit:prod
+            rhythmgupta22/scrapit:${{ github.sha }}
+          platforms: linux/amd64,linux/arm64
+          build-args: |
+            FLUTTER_VERSION=3.27.3
+
+      # Verify Docker image
+      - name: Verify Docker image
+        run: |
+          docker run --rm rhythmgupta22/scrapit:prod nginx -v
+
+env:
+  DOCKER_BUILDKIT: 1

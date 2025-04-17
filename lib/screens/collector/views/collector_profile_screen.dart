@@ -6,7 +6,6 @@ import 'package:scrap_it/screens/collector/controllers/collector_profile_control
 import 'package:scrap_it/screens/collector/views/assigned_orders_screen.dart';
 import 'package:scrap_it/screens/collector/views/assigned_pickups_screen.dart';
 import 'package:scrap_it/screens/login/repository/auth_repository.dart';
-import 'package:scrap_it/sharedWidgets/custom_bordered_button.dart';
 import 'package:uicons/uicons.dart';
 
 class CollectorProfileScreen extends StatelessWidget {

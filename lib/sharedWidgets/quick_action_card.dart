@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uicons/uicons.dart';
 import 'package:scrap_it/constants/colors.dart';
 import 'package:scrap_it/constants/fonts.dart';
 

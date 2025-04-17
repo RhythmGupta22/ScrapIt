@@ -8,10 +8,6 @@ import 'package:scrap_it/constants/colors.dart';
 import 'package:scrap_it/constants/fonts.dart';
 import 'package:scrap_it/screens/seller/home/controllers/location_controller.dart';
 import 'package:scrap_it/screens/seller/home/views/components/carousel_card.dart';
-import 'package:scrap_it/screens/seller/home/views/components/top_row.dart';
-import 'package:scrap_it/screens/seller/trashPickup/views/scheduled_pickups.dart';
-import 'package:scrap_it/screens/seller/shop/views/shop_screen.dart';
-import 'package:scrap_it/screens/seller/viewShopOrders/views/view_all_orders.dart';
 
 import '../data/carousel_blog_list.dart';
 

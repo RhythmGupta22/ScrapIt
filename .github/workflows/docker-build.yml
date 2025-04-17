@@ -65,9 +65,15 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
 
+      # Debug Trivy report file
+      - name: Debug Trivy report file
+        run: |
+          ls -la
+          cat trivy-report.txt || echo "File not found or empty"
+
       # Upload Trivy report as an artifact
       - name: Upload Trivy report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: trivy-report
           path: trivy-report.txt

@@ -42,15 +42,15 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build Docker image (without pushing yet)
-      - name: Build Docker image
+      # Build Docker image for single platform (amd64) with load for Trivy
+      - name: Build Docker image (amd64 for scan)
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           load: true
-          tags: rhythmgupta22/scrapit:prod
-          platforms: linux/amd64,linux/arm64
+          tags: rhythmgupta22/scrapit:prod-amd64
+          platforms: linux/amd64
           build-args: |
             FLUTTER_VERSION=3.27.3
 
@@ -58,7 +58,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'rhythmgupta22/scrapit:prod'
+          image-ref: 'rhythmgupta22/scrapit:prod-amd64'
           format: 'table'
           output: 'trivy-report.txt'
           severity: 'CRITICAL,HIGH'
@@ -78,7 +78,7 @@ jobs:
           name: trivy-report
           path: trivy-report.txt
 
-      # Push Docker image (only on push to rhythm-ios)
+      # Push Docker image (multi-platform)
       - name: Push Docker image
         if: github.event_name == 'push'
         uses: docker/build-push-action@v5
@@ -93,10 +93,10 @@ jobs:
           build-args: |
             FLUTTER_VERSION=3.27.3
 
-      # Verify Docker image
+      # Verify Docker image (using the single-platform build)
       - name: Verify Docker image
         run: |
-          docker run --rm rhythmgupta22/scrapit:prod nginx -v
+          docker run --rm rhythmgupta22/scrapit:prod-amd64 nginx -v
 
 env:
   DOCKER_BUILDKIT: 1

@@ -11,7 +11,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60  # Increased from 15 to 60 minutes
 
     steps:
       # Check out the repository code
@@ -63,7 +63,6 @@ jobs:
           format: 'json'
           output: 'trivy-report.json'
           severity: 'CRITICAL,HIGH'
-          # exit-code: '1' # Commented out to allow completion
           ignore-unfixed: true
 
       # Debug Trivy output
